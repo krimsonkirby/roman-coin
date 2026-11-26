@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roman Emperor Coin Collection</title>
+<meta name="description" content="A coin for every Roman emperor, Julius Caesar to Romulus Augustulus.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a collector's coin cabinet with a dealer's ledger beside it — quiet, precise, proud
+   IDEA: the black velvet display board in a frame; real coin photos fill the slots as the collection grows
+   PICTURE: the board of 105 coins: photographed coins, gleaming drawn coins for owned ones without photos, ghosted ones still to find
+   COLOUR and TYPE: velvet black, ivory lettering, silver/bronze/gold metal tones, gold accent; Cinzel + EB Garamond
+   LAYOUT: framed title and tally, Board / Showcase / Shopping list, era rows of coins, a ledger card per coin, a lightbox for photos */
+:root{color-scheme:dark;--bg:#0d0c0b;--panel:#171513;--ink:#efe8da;--dim:#a39b8c;--line:#3a342c;--gold:#d9a93a;--frame:#050505}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:#2b2621;color:var(--ink);font:17px/1.55 "EB Garamond",Georgia,serif;overflow-x:clip}
+a{color:var(--gold)}
+.board{max-width:1320px;margin:clamp(0px,3vw,40px) auto;background:var(--bg);border:clamp(8px,1.6vw,18px) solid var(--frame);box-shadow:0 30px 60px #0009;padding:clamp(18px,3vw,44px) clamp(12px,3vw,44px) 40px;outline:1px solid #6d6150;outline-offset:clamp(-14px,-1.2vw,-8px)}
+h1{font:700 clamp(24px,4.4vw,48px)/1.05 Cinzel,serif;letter-spacing:.06em;text-align:center;margin:6px 0 4px;text-wrap:balance}
+.sub{text-align:center;color:var(--dim);margin:0 auto 22px;max-width:680px}
+.tally{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 22px;align-items:center;max-width:860px;margin:0 auto 10px}
+.big{font:700 clamp(30px,5vw,46px)/1 Cinzel,serif;color:var(--gold);white-space:nowrap}
+.big small{font-size:.45em;color:var(--dim)}
+.bar{height:12px;border-radius:6px;background:#26221d;overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#9a6b17,var(--gold),#f3d98a);transition:width .6s}
+.eras,.money{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 18px;color:var(--dim);font-size:15px}
+.eras b,.money b{color:var(--ink);font-weight:500;white-space:nowrap}
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:18px auto 8px}
+.seg{display:flex;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.seg button,.btn{font:500 15px "EB Garamond",serif;color:var(--ink);background:transparent;border:0;min-height:44px;padding:0 16px;cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed=true]{background:var(--ink);color:#111}
+.btn{border:1px solid var(--line);border-radius:22px;display:inline-flex;align-items:center;justify-content:center}
+.btn.gold{background:var(--gold);color:#1a1205;border-color:var(--gold)}
+.btn.sm{min-height:36px;padding:0 12px;font-size:14px}
+input,textarea,select{font:16px "EB Garamond",serif;color:var(--ink);background:#1d1a17;border:1px solid var(--line);border-radius:8px;padding:9px 12px;min-height:44px;width:100%}
+#q{width:210px;border-radius:22px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.status{text-align:center;color:var(--dim);font-size:14px;min-height:22px;margin:0 0 6px}
+h2{font:500 clamp(15px,1.8vw,19px)/1.2 Cinzel,serif;letter-spacing:.05em;color:var(--dim);border-bottom:1px solid var(--line);padding-bottom:8px;margin:30px 0 14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+h2 span{font-family:"EB Garamond",serif;letter-spacing:0;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:16px 10px}
+.card{text-align:center}
+.coin{display:block;width:100%;max-width:92px;margin:0 auto;aspect-ratio:1;padding:0;border:0;background:none;border-radius:50%;cursor:pointer;transition:transform .2s,filter .3s;overflow:hidden}
+.coin svg,.coin img{width:100%;height:100%;display:block;border-radius:50%}
+.coin img{object-fit:cover;background:#1b1916}
+.coin:hover{transform:scale(1.07)}
+.need .coin{filter:grayscale(1) brightness(.42) contrast(.9)}
+.need .coin:hover{filter:grayscale(.6) brightness(.7)}
+.have .coin{filter:drop-shadow(0 0 7px #d9a93a44)}
+.name{display:block;width:100%;background:none;border:0;color:var(--ink);cursor:pointer;padding:6px 2px 2px;min-height:44px;font:700 11.5px/1.2 Cinzel,serif;letter-spacing:.03em;text-transform:uppercase}
+.need .name{color:var(--dim)}
+.name small{display:block;font:400 13px/1.3 "EB Garamond",serif;color:var(--dim);text-transform:none;letter-spacing:0;margin-top:2px}
+.tag{display:inline-block;margin-top:3px;font:500 13px/1 "EB Garamond",serif;color:#1a1205;background:var(--gold);border-radius:10px;padding:3px 7px;letter-spacing:0;text-transform:none;white-space:nowrap}
+.tick{color:var(--gold)}
+.pips{letter-spacing:1px;color:var(--gold);font-size:12px}
+.empty{color:var(--dim);text-align:center;padding:30px}
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;color:var(--dim);font-size:14px;margin-top:30px}
+.key i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.show{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:26px 20px;margin-top:24px}
+.sc{background:none;border:0;color:var(--ink);text-align:center;cursor:pointer;padding:0;font:inherit}
+.sc .coin{max-width:190px;cursor:pointer}
+.sc b{display:block;font:700 15px/1.2 Cinzel,serif;letter-spacing:.04em;margin-top:12px}
+.sc span{display:block;color:var(--dim);font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:16px}
+th{font:500 14px "EB Garamond",serif;color:var(--dim);text-align:left;border-bottom:1px solid var(--line);padding:8px 10px}
+td{border-bottom:1px solid #26221d;padding:9px 10px;vertical-align:top}
+td.num,th.num{text-align:right;white-space:nowrap}
+tr.rowlink{cursor:pointer}tr.rowlink:hover td{background:#1a1815}
+.who{font:700 13px Cinzel,serif;letter-spacing:.03em}
+.muted{color:var(--dim);font-size:14px}
+.links{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:14px}
+.listbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:24px 0 10px}
+.listbar select{width:auto}
+dialog{background:var(--panel);color:var(--ink);border:1px solid #6d6150;border-radius:14px;padding:0;width:min(560px,96vw);max-height:92vh}
+dialog::backdrop{background:#000c}
+.dl{padding:20px}
+.dhead{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:center}
+.dhead .coin{max-width:110px;cursor:default}.dhead .coin:hover{transform:none}
+.dl h3{font:700 23px/1.1 Cinzel,serif;margin:0 0 4px}
+.dl .r{color:var(--dim);margin:0}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:16px 0 14px;overflow-x:auto}
+.tabs button{font:500 15px "EB Garamond",serif;background:none;border:0;border-bottom:2px solid transparent;color:var(--dim);min-height:44px;padding:0 12px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected=true]{color:var(--ink);border-color:var(--gold)}
+.f{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.f label{font-size:14px;color:var(--dim);display:grid;gap:3px}
+.f .w{grid-column:1/-1}
+.row{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:16px;flex-wrap:wrap}
+.li{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:start}
+.li .p{font:700 17px Cinzel,serif;color:var(--gold);white-space:nowrap;text-align:right}
+.li .t{overflow-wrap:anywhere}
+.li .ctl{grid-column:1/-1;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.li .ctl select{width:auto;min-height:36px;padding:4px 8px;font-size:14px}
+.sect{font:500 14px Cinzel,serif;letter-spacing:.04em;color:var(--dim);margin:14px 0 8px}
+.srch{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.srch a{display:flex;flex-direction:column;justify-content:center;min-height:56px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;text-decoration:none;color:var(--ink)}
+.srch a small{color:var(--dim);font-size:13px}
+.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.ph figure{margin:0;border:1px solid var(--line);border-radius:10px;padding:8px;display:grid;gap:6px}
+.ph img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px;background:#1b1916}
+.ph figcaption{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.ph .cov{font-size:13px;color:var(--gold);text-align:center}
+.drop{display:flex;align-items:center;justify-content:center;gap:8px;border:1px dashed #6d6150;border-radius:10px;min-height:64px;margin-top:10px;cursor:pointer;color:var(--dim);text-align:center;padding:8px}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+#lb{width:min(900px,96vw)}
+.lbimgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lbimgs img{width:100%;border-radius:10px;background:#1b1916}
+.lbsvg{max-width:280px;margin:0 auto}
+.lbt{text-align:center;margin:0 0 14px}
+.lbt h3{font:700 clamp(22px,3vw,30px)/1.1 Cinzel,serif;margin:0 0 4px}
+[hidden]{display:none!important}
+@media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:12px 6px}.show{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}.tally{grid-template-columns:1fr;text-align:center}.eras,.money{justify-content:center}#q{width:100%}.tools{flex-direction:column;align-items:stretch}.seg button{flex:1}.dhead{grid-template-columns:80px minmax(0,1fr)}.f{grid-template-columns:1fr}
+table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;color:var(--dim)}.stack td:empty{display:none}}
+@media(prefers-reduced-motion:reduce){.coin,.bar i{transition:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <radialGradient id="m-silver" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fbfbf8"/><stop offset=".5" stop-color="#b9b8b3"/><stop offset="1" stop-color="#5b5a56"/></radialGradient>
+  <radialGradient id="m-billon" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#e6ddcd"/><stop offset=".5" stop-color="#9d9383"/><stop offset="1" stop-color="#4d463b"/></radialGradient>
+  <radialGradient id="m-bronze" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#ecc49a"/><stop offset=".5" stop-color="#9c6b40"/><stop offset="1" stop-color="#43291a"/></radialGradient>
+  <radialGradient id="m-gold" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff2bf"/><stop offset=".5" stop-color="#e4ad33"/><stop offset="1" stop-color="#875510"/></radialGradient>
+  <path id="legend" d="M15 52 A35 35 0 1 1 85 52"/>
+  <g id="bust">
+   <path d="M37 86 C36 76 35 66 37 58 C31 55 29 47 32 40 C35 30 42 24 52 24 C61 24 67 29 69 37 L71 43 L76 49 L72 51 L73 55 L70 57.5 L71 61.5 C69 64.5 65 64.5 62.5 66 L62 72 C69 74 75 79 77 86 Z"/>
+   <g fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M33 44 C36 33 44 27 54 27"/><path d="M36 37 l-5 -2 M40 32 l-4 -4 M45 29 l-2 -5 M50 27.5 l0 -5 M55 27.5 l2 -5"/></g>
+  </g>
+ </defs>
+</svg>
+<main class="board">
+ <h1>Emperors of the Roman Empire</h1>
+ <p class="sub" id="sub">A coin for every emperor, Julius Caesar to Romulus Augustulus.</p>
+ <section class="tally" aria-label="Progress">
+  <div class="big" id="count">0 <small>/ 105</small></div>
+  <div class="bar" role="progressbar" aria-label="Collection progress" aria-valuemin="0" aria-valuemax="105" id="barwrap"><i id="bar" style="width:0"></i></div>
+  <div class="money" id="money" hidden></div>
+  <div class="eras" id="eras"></div>
+ </section>
+ <div class="tools">
+  <div class="seg" role="group" aria-label="View" id="views">
+   <button data-v="board" aria-pressed="true">Board</button><button data-v="show" aria-pressed="false">Showcase</button><button data-v="shop" aria-pressed="false" class="own" hidden>Shopping list</button>
+  </div>
+  <div class="seg" role="group" aria-label="Show" id="filt">
+   <button data-f="all" aria-pressed="true">All</button><button data-f="have" aria-pressed="false">Collected</button><button data-f="need" aria-pressed="false">To find</button>
+  </div>
+  <input id="q" type="search" placeholder="Find an emperor" aria-label="Find an emperor">
+  <button class="btn own" id="copy" hidden>Copy checklist</button>
+  <button class="btn own" id="savefull" hidden>Save full copy</button>
+  <button class="btn own" id="saveshow" hidden>Export showcase</button>
+  <label class="btn own" hidden style="position:relative">Load a copy<input type="file" id="imp" accept=".html,text/html" style="position:absolute;width:1px;height:1px;opacity:0"></label>
+ </div>
+ <p class="status" id="status" aria-live="polite"></p>
+ <div id="view"></div>
+ <div class="key"><span><i style="background:#b9b8b3"></i>Silver</span><span><i style="background:#9d9383"></i>Billon</span><span><i style="background:#9c6b40"></i>Bronze</span><span><i style="background:#e4ad33"></i>Gold</span><span>Drawn coins show the metal most often collected for that reign. <span class="pips">●</span> to <span class="pips">●●●●</span> is a general guide to how hard each ruler is to find.</span></div>
+</main>
+
+<dialog id="dlg"><div class="dl">
+ <div class="dhead"><div id="dcoin"></div><div><h3 id="dname"></h3><p class="r" id="dreign"></p><p class="r" id="drare"></p></div></div>
+ <div class="tabs" role="tablist">
+  <button role="tab" data-tab="rec" aria-selected="true">My record</button><button role="tab" data-tab="pho" aria-selected="false">Photos</button><button role="tab" data-tab="lst" aria-selected="false">Listings</button><button role="tab" data-tab="src" aria-selected="false">Search for it</button>
+ </div>
+ <section data-panel="rec">
+  <div class="f">
+   <label>Denomination<input id="fden" placeholder="e.g. Denarius"></label>
+   <label>Date acquired<input id="fdate" type="date"></label>
+   <label>Price paid (A$)<input id="fprice" inputmode="decimal" placeholder="0.00"></label>
+   <label>Bought from<input id="fsrc" placeholder="Dealer, auction…"></label>
+   <label class="w">Notes<textarea id="fnote" rows="3" placeholder="Grade, reverse type, mint, reference…"></textarea></label>
+  </div>
+  <p class="muted">Denomination, date and photos go into an exported showcase. Price, seller, notes and listings never do.</p>
+  <div class="row"><button type="button" class="btn" id="dtoggle"></button><button type="button" class="btn gold" id="dsave">Save record</button></div>
+ </section>
+ <section data-panel="pho" hidden>
+  <div class="ph" id="phs"></div>
+  <label class="drop" id="drop"><input type="file" id="file" accept="image/*" multiple><span id="dropt">Add photos: front, back, or the coin in its holder. Tap to choose or drop them here.</span></label>
+  <p class="muted">The first photo is the one shown on the board. Centre the coin and fill the frame so it sits neatly in its circle. Photos are resized to keep the file light.</p>
+ </section>
+ <section data-panel="lst" hidden>
+  <div class="sect">Cheapest found by Claude</div>
+  <div id="found"></div>
+  <div class="sect">My saved listings</div>
+  <div id="mylist"></div>
+  <form id="addf" class="f" style="margin-top:8px">
+   <label class="w">Listing link<input id="lurl" type="url" placeholder="https://…" required></label>
+   <label class="w">Title<input id="ltitle" placeholder="e.g. Trajan AR denarius, VF"></label>
+   <label>Price (A$)<input id="lprice" inputmode="decimal" placeholder="0.00"></label>
+   <label>Seller<input id="lseller" placeholder="Seller or shop"></label>
+   <div class="w"><button class="btn gold" type="submit">Save listing</button></div>
+  </form>
+ </section>
+ <section data-panel="src" hidden>
+  <p class="muted" style="margin-top:0">Live searches open in a new tab, cheapest first where the site allows.</p>
+  <div class="srch" id="srch"></div>
+ </section>
+ <div class="row"><span class="muted" id="dstat"></span><button type="button" class="btn" id="dclose">Close</button></div>
+</div></dialog>
+
+<dialog id="lb"><div class="dl">
+ <div class="lbt"><h3 id="lbn"></h3><p class="r" id="lbr"></p></div>
+ <div id="lbimgs"></div>
+ <div class="row"><span class="muted" id="lbm"></span><button type="button" class="btn" id="lbclose">Close</button></div>
+</div></dialog>
+
+<script id="seed" type="application/json">{"pub": {}, "priv": {}, "market": {"constantine-the-great": {"checked": "2026-11-26", "items": [{"aud": 70.07, "cur": "USD", "price": "49.00", "seller": "eBay seller", "site": "eBay", "title": "Constantine I the Great, Nicomedia Æ Follis, Campgate", "url": "https://www.ebay.com/itm/335607192003"}, {"aud": 152.3, "cur": "USD", "price": "106.50", "seller": "Kinzer Coins", "site": "Dealer", "title": "Constantine I, Heraclea 317 AD, Reduced Follis 2.90g", "url": "https://kinzercoins.squarespace.com/shop/p/constantine-i-307-337-ad-heraclea-317-ad-reduced-follis-290g"}], "note": "Common; good folles from about A$50–150. Prices converted at about US$1 = A$1.43."}, "constantius-ii": {"checked": "2026-11-26", "items": [{"aud": 21.45, "cur": "USD", "price": "15.00", "seller": "eBay seller", "ship": "US$4.25 US postage shown; check international", "site": "eBay", "title": "Constantius II 337-361 A.D Ancient Roman Coin", "url": "https://www.ebay.com/itm/112922012148"}, {"aud": 26.75, "cur": "USD", "price": "18.71", "seller": "eBay seller (5,967 feedback)", "site": "eBay", "title": "Constantius II (337-361) Constantinople R1604", "url": "https://www.ebay.com/itm/166323064182"}, {"aud": 51.42, "cur": "USD", "price": "35.96", "seller": "Kinzer Coins", "site": "Dealer", "title": "Roman Bronze Coin of Constantius II, NGC", "url": "https://kinzercoins.squarespace.com/shop/p/constantius-ii-roman-ae34-ad-317-361-ngc"}], "note": "Very common bronzes, often under A$30. Prices converted at about US$1 = A$1.43."}, "gallienus": {"checked": "2026-11-26", "items": [{"aud": 29.6, "cur": "USD", "price": "20.70", "seller": "eBay seller", "site": "eBay", "title": "Ancient Roman Coin. Gallienus", "url": "https://www.ebay.com/itm/406708239151"}, {"aud": 37.48, "cur": "USD", "price": "26.21", "seller": "eBay seller (or best offer)", "site": "eBay", "title": "Gallienus Bronze 253-268AD Extra Fine R1619", "url": "https://www.ebay.com/itm/166314844222"}, {"aud": 50.27, "cur": "AUD", "price": "50.27", "seller": "eBay seller", "site": "eBay AU", "title": "Roman Silvered Antoninianus, Rome 253-268 AD, Gallienus", "url": "https://www.ebay.com.au/itm/127564740468"}], "note": "Very common; plenty under A$50. Prices converted at about US$1 = A$1.43, postage extra unless shown."}, "probus": {"checked": "2026-11-26", "items": [{"aud": 35.68, "cur": "USD", "price": "24.95", "seller": "Numismall", "site": "Dealer", "title": "Antoninianus of Probus, Antioch mint", "url": "https://www.numismall.com/products/v7907"}, {"aud": 55.83, "cur": "AUD", "price": "55.83", "seller": "eBay seller (or best offer)", "site": "eBay AU", "title": "280 AD Probus AE Antoninianus, Rome, VICTORIA AVG 4.15g", "url": "https://www.ebay.com.au/itm/116452394588"}, {"aud": 57.29, "cur": "USD", "price": "40.06", "seller": "eBay seller (or best offer)", "site": "eBay", "title": "Probus AE Antoninianus 277AD RIC 38", "url": "https://www.ebay.com/itm/406436088802"}], "note": "Common antoniniani from about A$35. Watch out: some eBay listings are labelled 'reproduction'. Prices converted at about US$1 = A$1.43."}, "trajan": {"checked": "2026-11-26", "items": [{"aud": 175.25, "cur": "USD", "price": "122.55", "seller": "Bonanza seller", "ship": "Free shipping", "site": "Bonanza", "title": "Trajan / Fortuna Redux silver denarius, Rome 113-114 AD", "url": "https://www.bonanza.com/items/like/1815941150"}, {"aud": 285.99, "cur": "USD", "price": "199.99", "seller": "APMEX", "site": "APMEX", "title": "Trajan AR Denarius VF, NGC (random coin)", "url": "https://www.apmex.com/product/296726/roman-empire-ar-denarius-trajan-98-117-ad-vf-ngc-random-coin"}], "note": "Silver denarii usually start around A$150–200 in decent condition. Prices converted at about US$1 = A$1.43."}}, "photos": {}, "readonly": false, "savedAt": 0}</script>
+<script>
+{
+const SRC = document.documentElement.outerHTML;
+const ERAS = [
+ {n:'Julio-Claudians & the Year of Four Emperors', m:'silver', l:[['Julius Caesar','49–44 BC',3],['Augustus','27 BC–AD 14',1],['Tiberius','14–37',1],['Caligula','37–41',2],['Claudius','41–54',1],['Nero','54–68',1],['Galba','68–69',2],['Otho','69',3],['Vitellius','69',2]]},
+ {n:'Flavians, Nerva-Antonines & Severans', m:'silver', l:[['Vespasian','69–79',1],['Titus','79–81',1],['Domitian','81–96',1],['Nerva','96–98',1],['Trajan','98–117',1],['Hadrian','117–138',1],['Antoninus Pius','138–161',1],['Lucius Verus','161–169',1],['Marcus Aurelius','161–180',1],['Commodus','177–192',1],['Pertinax','193',3],['Didius Julianus','193',4],['Septimius Severus','193–211',1],['Caracalla','198–217',1],['Geta','209–211',1],['Macrinus','217–218',2],['Diadumenian','218',3],['Elagabalus','218–222',1],['Severus Alexander','222–235',1]]},
+ {n:'Crisis of the Third Century', m:'billon', l:[['Maximinus I','235–238',1],['Gordian I','238',4],['Gordian II','238',4],['Pupienus','238',3],['Balbinus','238',3],['Gordian III','238–244',1],['Philip I','244–249',1],['Philip II','247–249',1],['Decius','249–251',1],['Herennius Etruscus','251',2],['Trebonianus Gallus','251–253',1],['Hostilian','251',2],['Volusian','251–253',1],['Aemilian','253',3],['Valerian','253–260',1],['Gallienus','253–268',1],['Saloninus','260',2],['Claudius II','268–270',1],['Quintillus','270',2],['Aurelian','270–275',1],['Tacitus','275–276',1],['Florianus','276',2],['Probus','276–282',1],['Carus','282–283',2],['Carinus','283–285',1],['Numerian','283–284',1]]},
+ {n:'Tetrarchy & the House of Constantine', m:'bronze', l:[['Diocletian','284–305',1],['Maximian','286–305',1],['Galerius','305–311',1],['Constantius I','305–306',1],['Severus II','306–307',2],['Constantine the Great','306–337',1],['Maxentius','306–312',1],['Licinius I','308–324',1],['Maximinus II','310–313',1],['Valerius Valens','316–317',4],['Martinian','324',4],['Constantine II','337–340',1],['Constans I','337–350',1],['Constantius II','337–361',1],['Magnentius','350–353',1],['Nepotianus','350',4],['Vetranio','350',2],['Julian','360–363',1],['Jovian','363–364',2]]},
+ {n:'Valentinians & Theodosians', m:'bronze', l:[['Valentinian I','364–375',1],['Valens','364–378',1],['Procopius','365–366',2],['Gratian','367–383',1],['Theodosius I','379–395',1],['Flavius Victor','387–388',2],['Magnus Maximus','383–388',2],['Valentinian II','375–392',1],['Eugenius','392–394',3],['Arcadius','383–408',1],['Honorius','393–423',1]]},
+ {n:'The Last Emperors of the West', m:'gold', l:[['Constantine III','407–411',3],['Theodosius II','408–450',2],['Constans II','409–411',4],['Priscus Attalus','409–415',4],['Constantius III','421',4],['Johannes','423–425',4],['Valentinian III','425–455',2],['Marcian','450–457',2],['Petronius Maximus','455',4],['Avitus','455–456',4],['Majorian','457–461',3],['Leo I','457–474',2],['Libius Severus','461–465',3],['Anthemius','467–472',3],['Olybrius','472',4],['Glycerius','473–474',4],['Leo II','474',4],['Zeno','474–491',2],['Julius Nepos','474–475',3],['Basiliscus & Marcus','475–476',3],['Romulus Augustulus','475–476',4]]}
+];
+const QX = {'Philip I':'Philip I Arab antoninianus','Philip II':'Philip II antoninianus roman','Maximinus I':'Maximinus Thrax','Maximinus II':'Maximinus II Daia','Gordian I':'Gordian I Africanus','Gordian II':'Gordian II Africanus','Claudius II':'Claudius II Gothicus','Julian':'Julian II apostate','Constantine III':'Constantine III usurper 407','Constans II':'Constans II usurper 409','Valerius Valens':'Valerius Valens follis','Tacitus':'Tacitus antoninianus','Basiliscus & Marcus':'Basiliscus','Leo II':'Leo II 474','Severus II':'Severus II follis','Licinius I':'Licinius I follis','Theodosius II':'Theodosius II roman','Julius Caesar':'Julius Caesar denarius'};
+
+const RARE = ['','Common','Scarce','Rare','Very rare'];
+const ALL = [];
+ERAS.forEach((e,ei) => e.l.forEach(([n,r,k]) => ALL.push({id:n.toLowerCase().replace(/[^a-z0-9]+/g,'-'), n, r, k, m:e.m, ei, q:QX[n] || n + ' roman coin'})));
+const BY = Object.fromEntries(ALL.map(e => [e.id, e]));
+const BUST = {silver:'#4a4945', billon:'#4b4438', bronze:'#4a2d18', gold:'#8a5a0e'};
+const PUBK = ['have','den','date','photos'], PRIVK = ['price','src','note','listings'];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl = u => /^https:\/\//i.test(String(u || '')) ? String(u) : '';
+let PH = {};
+const blob = id => { const u = PH[id]; return typeof u === 'string' && /^data:image\//.test(u) ? u : ''; };
+const num = v => { const x = parseFloat(String(v ?? '').replace(/[^0-9.]/g,'')); return isFinite(x) ? x : null; };
+const aud = v => v == null ? '' : 'A$' + (v >= 100 ? Math.round(v).toLocaleString('en-AU') : v.toFixed(2));
+const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+const fmtDate = d => { const t = new Date(d + 'T00:00:00'); return isNaN(t) ? '' : t.toLocaleDateString('en-AU', {day:'numeric', month:'short', year:'numeric'}); };
+
+let pub = {}, priv = {}, mkt = {}, assets = true, owner = true, view = 'board', filter = 'all', q = '', sort = 'price', cur = null;
+const has = id => !!(pub[id] && pub[id].have);
+const photos = id => ((pub[id] && pub[id].photos) || []).filter(blob);
+const best = id => { const it = ((mkt[id] && mkt[id].items) || []).map(x => ({...x, v: num(x.aud ?? x.price)})).filter(x => x.v != null && safeUrl(x.url)); it.sort((a,b) => a.v - b.v); return it[0] || null; };
+const pips = k => '●'.repeat(k);
+const status = s => document.getElementById('status').textContent = s;
+
+const coinSVG = e => {
+ const t = e.n.toUpperCase(), fit = t.length > 15 ? ' textLength="104" lengthAdjust="spacingAndGlyphs"' : '', c = BUST[e.m];
+ return `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="url(#m-${e.m})"/><circle cx="50" cy="50" r="45.5" fill="none" stroke="${c}" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="0.1 2.6" stroke-linecap="round"/><g fill="${c}" fill-opacity=".55" stroke="${c}" stroke-opacity=".7"><use href="#bust"/></g><text font-family="Cinzel,serif" font-weight="700" font-size="7.6" fill="${c}" fill-opacity=".85"><textPath href="#legend" startOffset="50%" text-anchor="middle"${fit}>${esc(t)}</textPath></text></svg>`;
+};
+const face = e => { const p = has(e.id) && photos(e.id)[0]; return p ? `<img src="${esc(blob(p))}" alt="" loading="lazy">` : coinSVG(e); };
+const match = x => (filter === 'all' || (filter === 'have') === has(x.id)) && (!q || x.n.toLowerCase().includes(q));
+
+const renderTally = () => {
+ const done = ALL.filter(e => has(e.id)).length;
+ document.getElementById('count').innerHTML = `${done} <small>/ ${ALL.length}</small>`;
+ document.getElementById('bar').style.width = (done / ALL.length * 100).toFixed(1) + '%';
+ document.getElementById('barwrap').setAttribute('aria-valuenow', done);
+ const m = document.getElementById('money'); m.hidden = !owner;
+ if (owner) {
+  const spent = ALL.reduce((s,e) => s + (has(e.id) ? num(priv[e.id] && priv[e.id].price) || 0 : 0), 0);
+  const need = ALL.filter(e => !has(e.id)), priced = need.map(e => best(e.id)).filter(Boolean);
+  const cheap = need.map(e => ({e, b: best(e.id)})).filter(x => x.b).sort((a,b) => a.b.v - b.b.v)[0];
+  m.innerHTML = `<span>Spent so far <b>${aud(spent)}</b></span><span>Prices found for <b>${priced.length} of ${need.length}</b> coins still to find</span>${priced.length ? `<span>Those total about <b>${aud(priced.reduce((s,b) => s + b.v, 0))}</b></span>` : ''}${cheap ? `<span>Cheapest next coin: <b>${esc(cheap.e.n)} ${aud(cheap.b.v)}</b></span>` : ''}`;
+ }
+ document.getElementById('eras').innerHTML = ERAS.map((e,i) => { const L = ALL.filter(x => x.ei === i); return `<span>${esc(e.n.split(' & ')[0].replace(/^The /,''))}: <b>${L.filter(x => has(x.id)).length}/${L.length}</b></span>`; }).join('');
+};
+
+const renderBoard = () => {
+ let shown = 0;
+ const html = ERAS.map((e,i) => {
+  const L = ALL.filter(x => x.ei === i && match(x)); shown += L.length; if (!L.length) return '';
+  const tot = ALL.filter(x => x.ei === i), got = tot.filter(x => has(x.id)).length;
+  return `<h2>${esc(e.n)}<span>${got} of ${tot.length}</span></h2><div class="grid">${L.map(x => { const h = has(x.id), b = owner && !h && best(x.id); return `<div class="card ${h ? 'have' : 'need'}"><button class="coin" data-t="${x.id}" aria-pressed="${h}" aria-label="${esc(x.n)}: ${h ? 'collected' : 'not collected'}">${face(x)}</button><button class="name" data-d="${x.id}">${h ? '<span class="tick">✓ </span>' : ''}${esc(x.n)}<small>${esc(x.r)}</small>${b ? `<span class="tag">from ${aud(b.v)}</span>` : ''}</button></div>`; }).join('')}</div>`;
+ }).join('');
+ return shown ? html : `<p class="empty">${filter === 'have' && !q ? 'No coins collected yet.' : 'No emperors match.'}</p>`;
+};
+
+const renderShow = () => {
+ const L = ALL.filter(x => has(x.id) && (!q || x.n.toLowerCase().includes(q)));
+ if (!L.length) return `<p class="empty">${q ? 'No collected emperor matches.' : owner ? 'Your showcase fills up as you mark coins collected and add photos.' : 'The first coins are on their way.'}</p>`;
+ return `<div class="show">${L.map(x => { const p = pub[x.id] || {}; return `<button class="sc have" data-lb="${x.id}"><div class="coin">${face(x)}</div><b>${esc(x.n)}</b><span>${esc(x.r)}</span><span>${esc([p.den, p.date && 'acquired ' + fmtDate(p.date)].filter(Boolean).join(' · '))}</span></button>`; }).join('')}</div>`;
+};
+
+const searchLinks = x => { const e = encodeURIComponent(x.q); return [
+ ['eBay Australia','Lowest price + postage',`https://www.ebay.com.au/sch/i.html?_nkw=${e}&_sop=15`],
+ ['eBay worldwide','Lowest price + postage',`https://www.ebay.com/sch/i.html?_nkw=${e}&_sop=15`],
+ ['VCoins','Ancient coin dealers',`https://www.vcoins.com/en/Search.aspx?searchtext=${e}`],
+ ['MA-Shops','European dealers',`https://www.ma-shops.com/shops/search.php?searchstr=${e}`],
+ ['acsearch','Past auction prices',`https://www.acsearch.info/search.html?term=${e}`],
+ ['Numista','Coin types & sales',`https://en.numista.com/catalogue/index.php?r=${e}&ct=coin`]]; };
+
+const renderShop = () => {
+ let L = ALL.filter(x => !has(x.id) && (!q || x.n.toLowerCase().includes(q)));
+ if (sort === 'price') L.sort((a,b) => (best(a.id)?.v ?? 1e12) - (best(b.id)?.v ?? 1e12));
+ if (sort === 'rare') L.sort((a,b) => a.k - b.k);
+ const rows = L.map(x => { const b = best(x.id), m = mkt[x.id], s = searchLinks(x).slice(0,3); return `<tr class="rowlink" data-d="${x.id}"><td><span class="who">${esc(x.n)}</span><div class="muted">${esc(x.r)}</div></td><td><span class="pips">${pips(x.k)}</span> <span class="muted">${RARE[x.k]}</span></td><td class="num">${b ? `<b>${aud(b.v)}</b>` : '<span class="muted">Not checked yet</span>'}</td><td>${b ? `<a href="${esc(safeUrl(b.url))}" target="_blank" rel="noopener">${esc(b.seller || b.site || 'Listing')}</a><div class="muted">${esc(b.title || '')}</div>` : ''}${m && m.checked ? `<div class="muted">Checked ${esc(m.checked)}</div>` : ''}</td><td><div class="links">${s.map(([n,,u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></td></tr>`; }).join('');
+ return `<div class="listbar"><span class="muted">${L.length} coins still to find. Tap a row for more listings.</span><label class="muted">Sort <select id="sort"><option value="price"${sort==='price'?' selected':''}>Cheapest first</option><option value="order"${sort==='order'?' selected':''}>In order of reign</option><option value="rare"${sort==='rare'?' selected':''}>Easiest to find first</option></select></label></div>${L.length ? `<table class="stack"><thead><tr><th>Emperor</th><th>Rarity</th><th class="num">Best price</th><th>Where</th><th>Search</th></tr></thead><tbody>${rows}</tbody></table>` : '<p class="empty">Nothing left to find. Ave, collector!</p>'}`;
+};
+
+const render = () => {
+ renderTally();
+ document.getElementById('filt').hidden = view !== 'board';
+ document.getElementById('view').innerHTML = view === 'board' ? renderBoard() : view === 'show' ? renderShow() : renderShop();
+ if (cur && document.getElementById('dlg').open) { renderLists(); renderPhotos(); }
+};
+
+// ---- storage (this browser + the file itself) ----
+const LS = 'roman-coins-file';
+const seedEl = document.getElementById('seed');
+let seed = {}; try { seed = JSON.parse(seedEl.textContent) || {}; } catch(e) {}
+const readonly = !!seed.readonly;
+let savedAt = 0, saveT = 0;
+const idb = () => new Promise((res, rej) => { if (!window.indexedDB) return rej(); const r = indexedDB.open('roman-coins', 1); r.onupgradeneeded = () => r.result.createObjectStore('ph'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+const idbDo = (mode, fn) => idb().then(d => new Promise((res, rej) => { const t = d.transaction('ph', mode), st = t.objectStore('ph'); const out = fn(st); t.oncomplete = () => res(out && out.result); t.onerror = () => rej(t.error); }));
+const putPh = (id, data) => idbDo('readwrite', st => st.put(data, id));
+const delPh = id => idbDo('readwrite', st => st.delete(id)).catch(() => {});
+const allPh = () => idb().then(d => new Promise(res => { const m = {}, c = d.transaction('ph').objectStore('ph').openCursor(); c.onsuccess = () => { const k = c.result; if (k) { m[k.key] = k.value; k.continue(); } else res(m); }; c.onerror = () => res(m); })).catch(() => ({}));
+const writeDoc = () => {
+ if (readonly) return;
+ savedAt = Date.now();
+ try { localStorage.setItem(LS, JSON.stringify({pub, priv, mkt, savedAt})); status('Saved in this browser. Use Save full copy now and then as a backup.'); }
+ catch(e) { status('This browser won’t keep changes here. Use Save full copy before closing.'); }
+};
+const clean = d => { Object.keys(d).forEach(k => (d[k] === '' || d[k] == null || d[k] === false || (Array.isArray(d[k]) && !d[k].length)) && delete d[k]); return d; };
+const edit = (store, col, id, fn) => { const d = {...(store[id] || {})}; fn(d); clean(d); if (Object.keys(d).length) store[id] = d; else delete store[id]; writeDoc(col, id); };
+const setPub = (id, fn) => { edit(pub, 'coins', id, fn); render(); };
+const setPriv = (id, fn) => { edit(priv, 'priv', id, fn); render(); };
+
+const applyOwner = () => {
+ document.querySelectorAll('.own').forEach(el => el.hidden = !owner);
+ document.getElementById('sub').textContent = owner ? 'My collection, Julius Caesar to Romulus Augustulus. Tap a coin to mark it collected; tap a name for its record, photos, listings and price searches.' : 'A coin for every emperor, Julius Caesar to Romulus Augustulus. Tap any collected coin for a closer look.';
+ if (!owner && view === 'shop') view = 'board';
+};
+const adopt = (s, from) => { pub = s.pub || {}; priv = s.priv || {}; const m = {...(s.mkt || s.market || {})}; Object.entries(mkt).forEach(([k,v]) => { if (!m[k] || (v.checked || '') > (m[k].checked || '')) m[k] = v; }); mkt = m; savedAt = s.savedAt || 0; };
+
+const start = async () => {
+ mkt = seed.market || {};
+ if (readonly) { owner = false; pub = seed.pub || {}; PH = seed.photos || {}; applyOwner(); render(); status(''); return; }
+ owner = true; applyOwner();
+ let local = null; try { local = JSON.parse(localStorage.getItem(LS) || 'null'); } catch(e) {}
+ if (local && (local.savedAt || 0) >= (seed.savedAt || 0)) { adopt(local); status(''); }
+ else { adopt({...seed, mkt: seed.market}); if (seed.savedAt) { status('Loaded the collection saved in this file.'); writeDoc(); } else status(''); }
+ render();
+ const stored = await allPh(), sp = seed.photos || {};
+ for (const [k,v] of Object.entries(sp)) if (!stored[k]) { stored[k] = v; putPh(k, v).catch(() => {}); }
+ PH = stored; render();
+ fetchPrices();
+};
+const FEED = 'https://raw.githubusercontent.com/krimsonkirby/roman-coin/main/prices.json';
+const fetchPrices = async () => {
+ try {
+  const r = await fetch(FEED + '?t=' + Math.floor(Date.now() / 3600000), {cache: 'no-store'});
+  if (!r.ok) throw 0;
+  const feed = await r.json(), m = feed && feed.market; if (!m || typeof m !== 'object') throw 0;
+  let n = 0;
+  Object.entries(m).forEach(([id, v]) => { if (!BY[id] || !v || typeof v !== 'object') return; if (!mkt[id] || String(v.checked || '') >= String(mkt[id].checked || '')) { mkt[id] = v; n++; } });
+  writeDoc(); render();
+  status(`Prices updated ${feed.updated ? fmtDate(String(feed.updated).slice(0,10)) : ''} for ${Object.keys(m).length} coins.`);
+ } catch(e) { status('Couldn’t reach the weekly price list, so showing the last prices saved here.'); }
+};
+start();
+
+// ---- save / export / load copies ----
+const stamp = () => today();
+const download = (name, html) => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([html], {type: 'text/html'})); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000); };
+const build = data => '<!DOCTYPE html>\n' + SRC.replace(/<script id="seed" type="application\/json">[\s\S]*?<\/script>/, () => '<script id="seed" type="application/json">' + JSON.stringify(data).replace(/</g, '\\u003c') + '<\/script>');
+document.getElementById('savefull').addEventListener('click', () => {
+ const used = new Set(Object.values(pub).flatMap(r => r.photos || []));
+ const ph = {}; used.forEach(id => PH[id] && (ph[id] = PH[id]));
+ download(`roman-coins-${stamp()}.html`, build({pub, priv, market: mkt, photos: ph, readonly: false, savedAt: savedAt || Date.now()}));
+ status('Full copy saved. Open it on another device, or keep it as a backup.');
+});
+document.getElementById('saveshow').addEventListener('click', () => {
+ const p = {}, ph = {};
+ Object.entries(pub).forEach(([id, r]) => { if (!r.have) return; p[id] = {have: true}; if (r.den) p[id].den = r.den; if (r.date) p[id].date = r.date; const P = (r.photos || []).filter(x => PH[x]); if (P.length) { p[id].photos = P; P.forEach(x => ph[x] = PH[x]); } });
+ download(`roman-coins-showcase-${stamp()}.html`, build({pub: p, priv: {}, market: {}, photos: ph, readonly: true, savedAt: Date.now()}));
+ status('Showcase exported: view-only, with no prices, sellers or notes. Upload it anywhere or send it to friends.');
+});
+document.getElementById('imp').addEventListener('change', async e => {
+ const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+ try {
+  const doc = new DOMParser().parseFromString(await f.text(), 'text/html'), el = doc.getElementById('seed');
+  const s = JSON.parse(el ? el.textContent : 'x');
+  if (s.readonly) { status('That’s a showcase copy, which has no private details. Load a full copy instead.'); return; }
+  adopt({...s, mkt: s.market});
+  for (const [k,v] of Object.entries(s.photos || {})) if (typeof v === 'string' && /^data:image\//.test(v)) { PH[k] = v; await putPh(k, v).catch(() => {}); }
+  writeDoc(); render(); status(`Loaded ${f.name}.`);
+ } catch(err) { status('That file isn’t a copy of this collection.'); }
+});
+
+// ---- record dialog (owner) ----
+const dlg = document.getElementById('dlg'), lb = document.getElementById('lb');
+const PF = ['den','date'], VF = ['price','src','note'];
+const dstat = s => document.getElementById('dstat').textContent = s;
+const setTab = t => { document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t)); document.querySelectorAll('[data-panel]').forEach(p => p.hidden = p.dataset.panel !== t); };
+const head = () => { document.getElementById('dcoin').innerHTML = `<div class="${has(cur.id) ? 'have' : 'need'}"><div class="coin">${face(cur)}</div></div>`; document.getElementById('dtoggle').textContent = has(cur.id) ? 'Remove from collection' : 'Mark as collected'; };
+const ST = {watch:'Watching', bid:'Bidding', won:'Bought', pass:'Passed'};
+const renderLists = () => {
+ const m = mkt[cur.id], items = ((m && m.items) || []).filter(x => safeUrl(x.url)).map(x => ({...x, v: num(x.aud ?? x.price)})).sort((a,b) => (a.v ?? 1e12) - (b.v ?? 1e12));
+ document.getElementById('found').innerHTML = items.length ? items.map(x => `<div class="li"><div class="t"><a href="${esc(safeUrl(x.url))}" target="_blank" rel="noopener">${esc(x.title || 'Listing')}</a><div class="muted">${esc([x.seller, x.site].filter(Boolean).join(' · '))}${x.price && x.cur && x.cur !== 'AUD' ? ` · ${esc(x.cur)} ${esc(x.price)}` : ''}${x.ship ? ` · postage ${esc(x.ship)}` : ''}</div></div><div class="p">${x.v != null ? aud(x.v) : ''}</div><div class="ctl"><button class="btn sm" data-keep="${esc(safeUrl(x.url))}">Save to my listings</button></div></div>`).join('') + (m.checked ? `<p class="muted">Checked ${esc(m.checked)}${m.note ? '. ' + esc(m.note) : ''}</p>` : '') : `<p class="muted">${m && m.checked ? `Nothing suitable found on ${esc(m.checked)}${m.note ? '. ' + esc(m.note) : ''}` : 'Not checked yet. Ask Claude for a fresh price check, or use Search for it.'}</p>`;
+ const L = (priv[cur.id] && priv[cur.id].listings) || [];
+ document.getElementById('mylist').innerHTML = L.length ? L.map((x,i) => `<div class="li"><div class="t"><a href="${esc(safeUrl(x.url))}" target="_blank" rel="noopener">${esc(x.title || x.url)}</a><div class="muted">${esc(x.seller || '')}${x.added ? ' · saved ' + esc(x.added) : ''}</div></div><div class="p">${num(x.price) != null ? aud(num(x.price)) : ''}</div><div class="ctl"><select data-st="${i}" aria-label="Status">${Object.entries(ST).map(([k,v]) => `<option value="${k}"${x.st === k ? ' selected' : ''}>${v}</option>`).join('')}</select><button class="btn sm" data-del="${i}">Remove</button></div></div>`).join('') : '<p class="muted">No saved listings yet. Paste one below, or save one Claude found.</p>';
+};
+const renderPhotos = () => {
+ const P = photos(cur.id);
+ document.getElementById('phs').innerHTML = P.map((id,i) => `<figure><img src="${esc(blob(id))}" alt="${esc(cur.n)} photo ${i+1}">${i === 0 ? '<div class="cov">On the board</div>' : ''}<figcaption>${i ? `<button class="btn sm" data-cover="${i}">Use on board</button>` : ''}<button class="btn sm" data-rmph="${i}">Remove</button></figcaption></figure>`).join('');
+ document.getElementById('drop').hidden = readonly;
+};
+const openD = id => {
+ cur = BY[id]; const a = pub[id] || {}, b = priv[id] || {};
+ document.getElementById('dname').textContent = cur.n;
+ document.getElementById('dreign').textContent = 'Reigned ' + cur.r;
+ document.getElementById('drare').innerHTML = `<span class="pips">${pips(cur.k)}</span> ${RARE[cur.k]} to find`;
+ PF.forEach(k => document.getElementById('f' + k).value = a[k] || '');
+ VF.forEach(k => document.getElementById('f' + k).value = b[k] || '');
+ document.getElementById('srch').innerHTML = searchLinks(cur).map(([n,s,u]) => `<a href="${esc(u)}" target="_blank" rel="noopener"><b>${n}</b><small>${s}</small></a>`).join('');
+ dstat(''); head(); setTab(has(id) ? 'rec' : (best(id) ? 'lst' : 'rec')); renderLists(); renderPhotos();
+ if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+};
+const readForm = () => { setPub(cur.id, r => PF.forEach(k => r[k] = document.getElementById('f' + k).value.trim())); setPriv(cur.id, r => VF.forEach(k => r[k] = document.getElementById('f' + k).value.trim())); };
+
+// ---- lightbox (everyone) ----
+const openLB = id => {
+ const x = BY[id], p = pub[id] || {}, P = photos(id);
+ document.getElementById('lbn').textContent = x.n;
+ document.getElementById('lbr').textContent = 'Reigned ' + x.r;
+ document.getElementById('lbimgs').innerHTML = P.length ? `<div class="lbimgs">${P.map((i,n) => `<img src="${esc(blob(i))}" alt="${esc(x.n)} photo ${n+1}">`).join('')}</div>` : `<div class="lbsvg have"><div class="coin" style="max-width:280px">${coinSVG(x)}</div></div>`;
+ document.getElementById('lbm').textContent = [p.den, p.date && 'Acquired ' + fmtDate(p.date), !P.length && 'Photo coming soon'].filter(Boolean).join(' · ');
+ if (lb.showModal) lb.showModal(); else lb.setAttribute('open','');
+};
+
+// ---- photos ----
+const shrink = async file => {
+ try {
+  const bmp = await createImageBitmap(file); const s = Math.min(1, 1000 / Math.max(bmp.width, bmp.height));
+  const c = document.createElement('canvas'); c.width = Math.round(bmp.width * s); c.height = Math.round(bmp.height * s);
+  c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+  const b = await new Promise(r => c.toBlob(r, 'image/jpeg', .85)); return b || file;
+ } catch(e) { return file; }
+};
+const addFiles = async files => {
+ if (!assets || !cur) return;
+ const list = [...files].filter(f => /^image\//.test(f.type)); if (!list.length) { dstat('Those weren’t image files.'); return; }
+ const id = cur.id, t = document.getElementById('dropt'), was = t.textContent;
+ for (let i = 0; i < list.length; i++) {
+  t.textContent = `Uploading ${i + 1} of ${list.length}…`;
+  try { const b = await shrink(list[i]); const data = await new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(b); }); const pid = 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); PH[pid] = data; await putPh(pid, data).catch(() => {}); setPub(id, r => { r.photos = [...(r.photos || []), pid]; if (!r.have) { r.have = true; r.date = r.date || today(); } }); }
+  catch(e) { dstat('A photo couldn’t be added. Try a different image.'); }
+ }
+ t.textContent = was; if (cur && cur.id === id) { head(); renderPhotos(); }
+};
+document.getElementById('file').addEventListener('change', e => { addFiles(e.target.files); e.target.value = ''; });
+const drop = document.getElementById('drop');
+['dragover','dragenter'].forEach(n => drop.addEventListener(n, e => { e.preventDefault(); drop.style.borderColor = 'var(--gold)'; }));
+['dragleave','drop'].forEach(n => drop.addEventListener(n, () => drop.style.borderColor = ''));
+drop.addEventListener('drop', e => { e.preventDefault(); addFiles(e.dataTransfer.files); });
+
+// ---- events ----
+document.getElementById('view').addEventListener('click', ev => {
+ if (ev.target.closest('a')) return;
+ const t = ev.target.closest('[data-t]'), d = ev.target.closest('[data-d]'), l = ev.target.closest('[data-lb]');
+ if (l) return openLB(l.dataset.lb);
+ const id = (t || d) && (t || d).dataset[t ? 't' : 'd']; if (!id) return;
+ if (!owner) { if (has(id)) openLB(id); return; }
+ if (t) setPub(id, r => { r.have = !r.have; if (r.have && !r.date) r.date = today(); });
+ else openD(id);
+});
+document.getElementById('view').addEventListener('change', ev => { if (ev.target.id === 'sort') { sort = ev.target.value; render(); } });
+document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+document.getElementById('dtoggle').addEventListener('click', () => { readForm(); setPub(cur.id, r => { r.have = !r.have; if (r.have && !r.date) r.date = today(); }); document.getElementById('fdate').value = (pub[cur.id] && pub[cur.id].date) || ''; head(); });
+document.getElementById('dsave').addEventListener('click', () => { readForm(); dstat('Record saved.'); });
+document.getElementById('dclose').addEventListener('click', () => dlg.close ? dlg.close() : dlg.removeAttribute('open'));
+document.getElementById('lbclose').addEventListener('click', () => lb.close ? lb.close() : lb.removeAttribute('open'));
+document.getElementById('addf').addEventListener('submit', ev => {
+ ev.preventDefault();
+ const url = safeUrl(document.getElementById('lurl').value.trim());
+ if (!url) { dstat('The link needs to start with https://'); return; }
+ const item = {url, title: document.getElementById('ltitle').value.trim(), price: document.getElementById('lprice').value.trim(), seller: document.getElementById('lseller').value.trim(), st:'watch', added: today()};
+ setPriv(cur.id, r => r.listings = [...(r.listings || []), item]);
+ ev.target.reset(); dstat('Listing saved.');
+});
+dlg.addEventListener('click', ev => {
+ const k = ev.target.closest('[data-keep]'), del = ev.target.closest('[data-del]'), cov = ev.target.closest('[data-cover]'), rm = ev.target.closest('[data-rmph]');
+ if (k) { const x = ((mkt[cur.id] && mkt[cur.id].items) || []).find(i => safeUrl(i.url) === k.dataset.keep); if (!x) return;
+  if (((priv[cur.id] && priv[cur.id].listings) || []).some(i => i.url === x.url)) { dstat('Already in your listings.'); return; }
+  setPriv(cur.id, r => r.listings = [...(r.listings || []), {url: safeUrl(x.url), title: String(x.title || ''), price: String(num(x.aud ?? x.price) ?? ''), seller: String(x.seller || x.site || ''), st:'watch', added: today()}]);
+  dstat('Saved to your listings.'); }
+ if (del) setPriv(cur.id, r => r.listings = (r.listings || []).filter((_, i) => i !== +del.dataset.del));
+ if (cov) { const i = +cov.dataset.cover; setPub(cur.id, r => { const P = [...(r.photos || [])]; const [p] = P.splice(i, 1); r.photos = [p, ...P]; }); head(); }
+ if (rm) { const i = +rm.dataset.rmph, pid = photos(cur.id)[i]; setPub(cur.id, r => r.photos = (r.photos || []).filter((_, j) => j !== i)); head(); if (pid && !Object.values(pub).some(r => (r.photos || []).includes(pid))) { delPh(pid); delete PH[pid]; } dstat('Photo removed.'); }
+});
+dlg.addEventListener('change', ev => { const s = ev.target.closest('[data-st]'); if (s) setPriv(cur.id, r => r.listings = (r.listings || []).map((x,i) => i === +s.dataset.st ? {...x, st: s.value} : x)); });
+document.querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => { view = b.dataset.v; document.querySelectorAll('[data-v]').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); }));
+document.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => { filter = b.dataset.f; document.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); }));
+document.getElementById('q').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); render(); });
+document.getElementById('copy').addEventListener('click', () => {
+ const lines = ALL.map(e => { const b = !has(e.id) && best(e.id); return `${has(e.id) ? '[x]' : '[ ]'} ${e.n} (${e.r})${pub[e.id] && pub[e.id].den ? ' — ' + pub[e.id].den : ''}${b ? ' — best found ' + aud(b.v) : ''}`; });
+ navigator.clipboard.writeText(`Roman emperor coins: ${ALL.filter(e => has(e.id)).length}/${ALL.length}\n` + lines.join('\n')).then(() => status('Checklist copied.')).catch(() => status('Copy was blocked by the browser.'));
+});
+}
+</script>
+</body>
+</html>

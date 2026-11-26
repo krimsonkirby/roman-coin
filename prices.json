@@ -1,0 +1,154 @@
+{
+ "updated": "2026-11-26",
+ "market": {
+  "constantine-the-great": {
+   "checked": "2026-11-26",
+   "items": [
+    {
+     "aud": 70.07,
+     "cur": "USD",
+     "price": "49.00",
+     "seller": "eBay seller",
+     "site": "eBay",
+     "title": "Constantine I the Great, Nicomedia Æ Follis, Campgate",
+     "url": "https://www.ebay.com/itm/335607192003"
+    },
+    {
+     "aud": 152.3,
+     "cur": "USD",
+     "price": "106.50",
+     "seller": "Kinzer Coins",
+     "site": "Dealer",
+     "title": "Constantine I, Heraclea 317 AD, Reduced Follis 2.90g",
+     "url": "https://kinzercoins.squarespace.com/shop/p/constantine-i-307-337-ad-heraclea-317-ad-reduced-follis-290g"
+    }
+   ],
+   "note": "Common; good folles from about A$50–150. Prices converted at about US$1 = A$1.43."
+  },
+  "constantius-ii": {
+   "checked": "2026-11-26",
+   "items": [
+    {
+     "aud": 21.45,
+     "cur": "USD",
+     "price": "15.00",
+     "seller": "eBay seller",
+     "ship": "US$4.25 US postage shown; check international",
+     "site": "eBay",
+     "title": "Constantius II 337-361 A.D Ancient Roman Coin",
+     "url": "https://www.ebay.com/itm/112922012148"
+    },
+    {
+     "aud": 26.75,
+     "cur": "USD",
+     "price": "18.71",
+     "seller": "eBay seller (5,967 feedback)",
+     "site": "eBay",
+     "title": "Constantius II (337-361) Constantinople R1604",
+     "url": "https://www.ebay.com/itm/166323064182"
+    },
+    {
+     "aud": 51.42,
+     "cur": "USD",
+     "price": "35.96",
+     "seller": "Kinzer Coins",
+     "site": "Dealer",
+     "title": "Roman Bronze Coin of Constantius II, NGC",
+     "url": "https://kinzercoins.squarespace.com/shop/p/constantius-ii-roman-ae34-ad-317-361-ngc"
+    }
+   ],
+   "note": "Very common bronzes, often under A$30. Prices converted at about US$1 = A$1.43."
+  },
+  "gallienus": {
+   "checked": "2026-11-26",
+   "items": [
+    {
+     "aud": 29.6,
+     "cur": "USD",
+     "price": "20.70",
+     "seller": "eBay seller",
+     "site": "eBay",
+     "title": "Ancient Roman Coin. Gallienus",
+     "url": "https://www.ebay.com/itm/406708239151"
+    },
+    {
+     "aud": 37.48,
+     "cur": "USD",
+     "price": "26.21",
+     "seller": "eBay seller (or best offer)",
+     "site": "eBay",
+     "title": "Gallienus Bronze 253-268AD Extra Fine R1619",
+     "url": "https://www.ebay.com/itm/166314844222"
+    },
+    {
+     "aud": 50.27,
+     "cur": "AUD",
+     "price": "50.27",
+     "seller": "eBay seller",
+     "site": "eBay AU",
+     "title": "Roman Silvered Antoninianus, Rome 253-268 AD, Gallienus",
+     "url": "https://www.ebay.com.au/itm/127564740468"
+    }
+   ],
+   "note": "Very common; plenty under A$50. Prices converted at about US$1 = A$1.43, postage extra unless shown."
+  },
+  "probus": {
+   "checked": "2026-11-26",
+   "items": [
+    {
+     "aud": 35.68,
+     "cur": "USD",
+     "price": "24.95",
+     "seller": "Numismall",
+     "site": "Dealer",
+     "title": "Antoninianus of Probus, Antioch mint",
+     "url": "https://www.numismall.com/products/v7907"
+    },
+    {
+     "aud": 55.83,
+     "cur": "AUD",
+     "price": "55.83",
+     "seller": "eBay seller (or best offer)",
+     "site": "eBay AU",
+     "title": "280 AD Probus AE Antoninianus, Rome, VICTORIA AVG 4.15g",
+     "url": "https://www.ebay.com.au/itm/116452394588"
+    },
+    {
+     "aud": 57.29,
+     "cur": "USD",
+     "price": "40.06",
+     "seller": "eBay seller (or best offer)",
+     "site": "eBay",
+     "title": "Probus AE Antoninianus 277AD RIC 38",
+     "url": "https://www.ebay.com/itm/406436088802"
+    }
+   ],
+   "note": "Common antoniniani from about A$35. Watch out: some eBay listings are labelled 'reproduction'. Prices converted at about US$1 = A$1.43."
+  },
+  "trajan": {
+   "checked": "2026-11-26",
+   "items": [
+    {
+     "aud": 175.25,
+     "cur": "USD",
+     "price": "122.55",
+     "seller": "Bonanza seller",
+     "ship": "Free shipping",
+     "site": "Bonanza",
+     "title": "Trajan / Fortuna Redux silver denarius, Rome 113-114 AD",
+     "url": "https://www.bonanza.com/items/like/1815941150"
+    },
+    {
+     "aud": 285.99,
+     "cur": "USD",
+     "price": "199.99",
+     "seller": "APMEX",
+     "site": "APMEX",
+     "title": "Trajan AR Denarius VF, NGC (random coin)",
+     "url": "https://www.apmex.com/product/296726/roman-empire-ar-denarius-trajan-98-117-ad-vf-ngc-random-coin"
+    }
+   ],
+   "note": "Silver denarii usually start around A$150–200 in decent condition. Prices converted at about US$1 = A$1.43."
+  }
+ }
+}
